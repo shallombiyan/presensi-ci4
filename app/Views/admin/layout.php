@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
     <title><?= $title ?></title>
 
@@ -67,7 +68,7 @@
               </a>
             </li>
             <li>
-              <a href="rekap-bulanan.html" class="d-flex align-items-center">
+              <a href="<?= base_url('admin/lokasi_presensi') ?>" class="d-flex align-items-center">
                 <i class="fas fa-map-marker-alt"></i> <!-- Ikon untuk Lokasi Presensi -->
                 <span class="ms-2">Lokasi Presensi</span>
               </a>
@@ -258,5 +259,60 @@
     <script src="<?= base_url('assets/js/jvectormap.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= base_url('assets/js/main.js') ?>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
+    <script>
+      $(document).ready( function () {
+          $('#datatables').DataTable();
+      } );
+
+      $(function(){
+        <?php if (session()->has('berhasil')) { ?>
+            const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "<?= $_SESSION ['berhasil'] ?>"
+          });
+          <?php } ?>
+      });
+
+      $('.tombol-hapus').on('click', function(e){
+          e.preventDefault(); // Mencegah link dieksekusi langsung
+          var getLink = $(this).attr('href');
+
+          Swal.fire({
+              title: "Anda yakin ingin menghapus?",
+              text: "Data yang anda hapus tidak akan bisa dikembalikan!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = getLink; // Redirect ke link setelah konfirmasi
+                  Swal.fire({
+                      title: "Deleted!",
+                      text: "Your file has been deleted.",
+                      icon: "success"
+                  });
+              }
+          });
+      });
+
+    </script>
   </body>
 </html>
