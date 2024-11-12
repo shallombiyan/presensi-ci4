@@ -41,7 +41,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="data-pegawai.html" class="d-flex align-items-center">
+            <a href="<?= base_url('admin/data_pegawai') ?>" class="d-flex align-items-center">
             <i class="fas fa-users"></i> <!-- Ikon Data Pegawai -->
             <span class="text ms-2">Data Pegawai</span>
             </a>
