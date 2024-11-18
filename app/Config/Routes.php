@@ -38,3 +38,6 @@ $routes->get('admin/data_pegawai/detail/(:segment)', 'Admin\DataPegawai::detail/
 $routes->get ('pegawai/home', 'Pegawai\Home::index', ['filter' => 'pegawaiFilter']);
 $routes->post ('pegawai/presensi_masuk', 'Pegawai\Home::presensi_masuk', ['filter' => 'pegawaiFilter']);
 $routes->post ('pegawai/presensi_masuk_aksi', 'Pegawai\Home::presensi_masuk_aksi', ['filter' => 'pegawaiFilter']);
+
+$routes->post('pegawai/presensi_keluar/(:segment)', 'Pegawai\Home::presensi_keluar/$1', ['filter' => 'pegawaiFilter']);
+$routes->post ('pegawai/presensi_keluar_aksi/(:segment)', 'Pegawai\Home::presensi_keluar_aksi/$1', ['filter' => 'pegawaiFilter']);

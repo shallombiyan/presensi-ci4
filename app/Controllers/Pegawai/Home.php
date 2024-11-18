@@ -20,7 +20,8 @@ class Home extends BaseController
         $data = [
             'title' => 'Home',
             'lokasi_presensi' => $lokasi_presensi->where('id', $pegawai['lokasi_presensi'])->first(),
-            'cek_presensi' => $presensi_model->where('id_pegawai',$id_pegawai)->where('tanggal_masuk', date('Y-m-d'))->countAll()
+            'cek_presensi' => $presensi_model->where('id_pegawai',$id_pegawai)->where('tanggal_masuk', date('Y-m-d'))->countAllResults(),
+            'ambil_presensi_masuk' => $presensi_model->where('id_pegawai',$id_pegawai)->where('tanggal_masuk', date('Y-m-d'))->first(),
         ];
         return view('pegawai/home', $data);
     }
@@ -86,5 +87,70 @@ class Home extends BaseController
         session()->setFlashData('berhasil', 'Presensi masuk berhasil');
         return redirect()->to(base_url('pegawai/home'));
     }
+
+    public function presensi_keluar($id)
+    {
+        $latitude_pegawai = (float) $this->request->getPost('latitude_pegawai');
+        $longitude_pegawai = (float) $this->request->getPost('longitude_pegawai');
+        $latitude_kantor = (float) $this->request->getPost('latitude_kantor');
+        $longitude_kantor = (float) $this->request->getPost('longitude_kantor');
+        $radius = $this->request->getPost('radius');
+    
+        // Perhitungan jarak menggunakan rumus Haversine
+        $earth_radius = 6371000; // Radius bumi dalam meter
+    
+        $dLat = deg2rad($latitude_kantor - $latitude_pegawai);
+        $dLon = deg2rad($longitude_kantor - $longitude_pegawai);
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            cos(deg2rad($latitude_pegawai)) * cos(deg2rad($latitude_kantor)) *
+            sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        $jarak_meter = $earth_radius * $c;
+    
+        if ($jarak_meter > $radius) {
+            session()->setFlashdata('gagal', 'Presensi gagal, lokasi Anda berada di luar radius kantor');
+            return redirect()->to(base_url('pegawai/home'));
+        } else {
+            session()->setFlashdata('sukses', 'Presensi berhasil, ambil foto.');
+            $data = [
+                'title' => "Ambil Foto Selfie",
+                'id_presensi' => $id,
+                'tanggal_keluar' => $this->request->getPost('tanggal_keluar'),
+                'jam_keluar' => $this->request->getPost('jam_keluar'),
+            ];
+            return view('pegawai/ambil_foto_keluar', $data);
+        }
+    }
+
+    public function presensi_keluar_aksi($id)
+    {
+        $request = \Config\Services::request();
+        $tanggal_keluar = $request->getPost('tanggal_keluar');
+        $jam_keluar = $request->getPost('jam_keluar');
+        $foto_keluar = $request->getPost('foto_keluar');
+    
+        // Decode foto
+        $foto_keluar = str_replace('data:image/jpeg;base64,', '', $foto_keluar);
+        $foto_keluar = base64_decode($foto_keluar);
+    
+        // Simpan foto
+        $foto_dir = 'uploads/' . $id . '_' . time() . '.jpg';
+        $nama_foto = $id . '_' . time() . '.jpg';
+        file_put_contents($foto_dir, $foto_keluar);
+    
+        $presensi_model = new PresensiModel();
+        $presensi_model->update($id, [
+            'jam_keluar' => $jam_keluar,
+            'tanggal_keluar' => $tanggal_keluar,
+            'foto_keluar' => $nama_foto
+        ]);
+    
+        session()->setFlashData('berhasil', 'Presensi keluar berhasil');
+        return redirect()->to(base_url('pegawai/home'));
+    }
+    
+
 
 }
