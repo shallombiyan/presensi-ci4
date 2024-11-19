@@ -59,11 +59,18 @@
     </div>
   </div>
 
-  <!-- Presensi Keluar -->
   <div class="col-md-4 ms-3">
-    <div class="card">
-      <div class="card-header">Presensi Keluar</div>
-      <?php if ($cek_presensi < 1): ?>
+  <div class="card">
+    <div class="card-header">Presensi Keluar</div>
+    <?php if ($cek_presensi < 1): ?>
+      <div class="card-body">
+        <h5 class="text-center"><i class="fas fa-check-circle"></i> Anda belum melakukan presensi masuk</h5>
+      </div>
+    <?php elseif ($cek_presensi): ?>
+      <div class="card-body">
+        <h5 class="text-center"><i class="fas fa-check-circle"></i> Anda telah melakukan presensi keluar</h5>
+      </div>
+    <?php else: ?>
       <div class="card-body text-center">
         <div class="fw-bold"><?= date('d F Y') ?></div>
         <div class="parent-clock">
@@ -74,7 +81,7 @@
           <div id="detik-keluar"></div>
         </div>
         <form method="post" action="<?= base_url('pegawai/presensi_keluar/'. $ambil_presensi_masuk['id']) ?>">
-        <?php
+          <?php
           if ($lokasi_presensi['zona_waktu'] == 'WIB') {
             date_default_timezone_set('Asia/Jakarta');
           } elseif ($lokasi_presensi['zona_waktu'] == 'WITA') {
@@ -82,12 +89,11 @@
           } elseif ($lokasi_presensi['zona_waktu'] == 'WIT') { 
             date_default_timezone_set('Asia/Jayapura');
           }
-        ?>
+          ?>
 
-          <input type="hidden" name="latitude_kantor" value="<?= $lokasi_presensi ['latitude'] ?>">
-          <input type="hidden" name="longitude_kantor" value="<?= $lokasi_presensi ['longitude'] ?>">
-          <input type="hidden" name="radius" value="<?= $lokasi_presensi ['radius'] ?>">
-
+          <input type="hidden" name="latitude_kantor" value="<?= $lokasi_presensi['latitude'] ?>">
+          <input type="hidden" name="longitude_kantor" value="<?= $lokasi_presensi['longitude'] ?>">
+          <input type="hidden" name="radius" value="<?= $lokasi_presensi['radius'] ?>">
 
           <input type="hidden" name="latitude_pegawai" id="latitude_pegawai">
           <input type="hidden" name="longitude_pegawai" id="longitude_pegawai">
@@ -97,14 +103,10 @@
           <button class="btn btn-danger mt-3">Keluar</button>
         </form>
       </div>
-      <?php else: ?>
-        <div class="card-body">
-          <h5 class="text-center"><i class="fas fa-check-circle"></i> Anda telah melakukan presensi keluar</h5>
-        </div>
-      <?php endif; ?>
-    </div>
+    <?php endif; ?>
   </div>
 </div>
+
 
 <script>
   // Set interval to update the clock every second
