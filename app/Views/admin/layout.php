@@ -104,7 +104,7 @@
                 </a>
             </li>
             <li>
-                <a href="rekap-bulanan.html" class="d-flex align-items-center">
+                <a href="<?= base_url('admin/rekap_bulanan') ?>" class="d-flex align-items-center">
                 <i class="fas fa-calendar-alt"></i> <!-- Ikon Rekap Bulanan -->
                 <span class="ms-2">Rekap Bulanan</span>
                 </a>
