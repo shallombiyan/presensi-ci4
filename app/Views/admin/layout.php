@@ -98,7 +98,7 @@
             </a>
             <ul id="ddmenu_1" class="collapse dropdown-nav">
             <li>
-                <a href="rekap-harian.html" class="d-flex align-items-center">
+                <a href="<?= base_url('admin/rekap_harian') ?>" class="d-flex align-items-center">
                 <i class="fas fa-calendar-day"></i> <!-- Ikon Rekap Harian -->
                 <span class="ms-2">Rekap Harian</span>
                 </a>
