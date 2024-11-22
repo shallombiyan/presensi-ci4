@@ -41,7 +41,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="data-pegawai.html" class="d-flex align-items-center">
+            <a href="<?= base_url('pegawai/rekap_presensi') ?>" class="d-flex align-items-center">
             <i class="fas fa-file-alt"></i> <!-- Ikon Data Pegawai -->
             <span class="text ms-2">Rekap Presensi</span>
             </a>

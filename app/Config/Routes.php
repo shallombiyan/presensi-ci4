@@ -42,3 +42,5 @@ $routes->post ('pegawai/presensi_masuk_aksi', 'Pegawai\Home::presensi_masuk_aksi
 
 $routes->post('pegawai/presensi_keluar/(:segment)', 'Pegawai\Home::presensi_keluar/$1', ['filter' => 'pegawaiFilter']);
 $routes->post ('pegawai/presensi_keluar_aksi/(:segment)', 'Pegawai\Home::presensi_keluar_aksi/$1', ['filter' => 'pegawaiFilter']);
+
+$routes->get ('pegawai/rekap_presensi', 'Pegawai\RekapPresensi::index', ['filter' => 'pegawaiFilter']);
