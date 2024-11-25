@@ -41,7 +41,7 @@
     <nav class="sidebar-nav">
         <ul>
         <li class="nav-item">
-            <a href="dashboard.html" class="d-flex align-items-center">
+            <a href="<?= base_url('admin/home') ?>" class="d-flex align-items-center">
             <i class="fas fa-tachometer-alt"></i> <!-- Ikon Dashboard -->
             <span class="text ms-2">Dashboard</span>
             </a>
@@ -113,14 +113,14 @@
         </li>
 
         <li class="nav-item">
-            <a href="ketidakhadiran.html" class="d-flex align-items-center">
+            <a href="<?= base_url('admin/ketidakhadiran') ?>" class="d-flex align-items-center">
             <i class="fas fa-user-times"></i> <!-- Ikon Ketidakhadiran -->
             <span class="text ms-2">Ketidakhadiran</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="logout.html" class="d-flex align-items-center">
+            <a href="<?= base_url('logout') ?>" class="d-flex align-items-center">
             <i class="fas fa-sign-out-alt"></i> <!-- Ikon Logout -->
             <span class="text ms-2">Logout</span>
             </a>

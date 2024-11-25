@@ -34,7 +34,7 @@
     <nav class="sidebar-nav">
         <ul>
         <li class="nav-item">
-            <a href="dashboard.html" class="d-flex align-items-center">
+            <a href="<?= base_url('pegawai/home') ?>" class="d-flex align-items-center">
             <i class="fas fa-tachometer-alt"></i> <!-- Ikon Dashboard -->
             <span class="text ms-2">Dashboard</span>
             </a>
@@ -48,14 +48,14 @@
         </li>
 
         <li class="nav-item">
-            <a href="ketidakhadiran.html" class="d-flex align-items-center">
+            <a href="<?= base_url('pegawai/ketidakhadiran') ?>" class="d-flex align-items-center">
             <i class="fas fa-user-times"></i> <!-- Ikon Ketidakhadiran -->
             <span class="text ms-2">Ketidakhadiran</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="logout.html" class="d-flex align-items-center">
+            <a href="<?= base_url('logout') ?>" class="d-flex align-items-center">
             <i class="fas fa-sign-out-alt"></i> <!-- Ikon Logout -->
             <span class="text ms-2">Logout</span>
             </a>
@@ -210,6 +210,56 @@
         });
           <?php } ?>
       });
+    </script>
+        <script>
+      $(document).ready( function () {
+          $('#datatables').DataTable();
+      } );
+
+      $(function(){
+        <?php if (session()->has('berhasil')) { ?>
+            const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "<?= $_SESSION ['berhasil'] ?>"
+          });
+          <?php } ?>
+      });
+
+      $('.tombol-hapus').on('click', function(e){
+          e.preventDefault(); // Mencegah link dieksekusi langsung
+          var getLink = $(this).attr('href');
+
+          Swal.fire({
+              title: "Anda yakin ingin menghapus?",
+              text: "Data yang anda hapus tidak akan bisa dikembalikan!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = getLink; // Redirect ke link setelah konfirmasi
+                  Swal.fire({
+                      title: "Deleted!",
+                      text: "Your file has been deleted.",
+                      icon: "success"
+                  });
+              }
+          });
+      });
+
     </script>
 
   </body>
